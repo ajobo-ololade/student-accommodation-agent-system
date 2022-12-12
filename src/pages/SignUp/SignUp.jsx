@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, } from '@mui/material';
-// import { Icon } from '@iconify/react';
-// import eyeFill from '@iconify/icons-eva/eye-fill';
-// import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
+import { Icon } from '@iconify/react';
+import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box } from '@mui/system';
@@ -18,7 +17,8 @@ const SignUp = () => {
         initialValues: {
             username: ``,
             password: '',
-            email: ''
+            email: '',
+            category: ''
         },
 
         onSubmit: async (values, { resetForm }) => {
@@ -29,6 +29,7 @@ const SignUp = () => {
             username: Yup.string().required('Username is required'),
             email: Yup.string().required('Email is required'),
             password: Yup.string().required('Password is required'),
+            category: Yup.string().required('Category is required'),
         }),
     });
 
@@ -38,7 +39,10 @@ const SignUp = () => {
     };
     return (
         <Container component="main" maxWidth="xs">
-
+            <Box sx={{ margin: 'auto', padding: '5px' }}>
+                <Alert severity="success">Login Succeful</Alert>
+                <Alert severity="error">Invalid Crediential</Alert>
+            </Box>
 
             <Card sx={{ margin: 'auto', marginTop: '50px', padding: '2rem' }} >
                 <CardContent>
@@ -112,9 +116,36 @@ const SignUp = () => {
                                 >
 
                                     <TextField
+
+                                        id='category'
+                                        label='Category'
+                                        size='small'
+                                        select
+                                        fullWidth
+                                        {...getFieldProps('category')}
+                                        error={Boolean(errors.category && touched.category)}
+                                        helperText={touched.category && errors.category}
+
+                                    >
+                                        <MenuItem value="agent">Agent</MenuItem>
+                                        <MenuItem value="student">Student</MenuItem>
+
+
+                                    </TextField>
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
                                         fullWidth
                                         autoComplete="current-password"
-                                        // type={showPassword ? 'text' : 'password'}
+                                        type={showPassword ? 'text' : 'password'}
                                         label="Password"
                                         size='small'
                                         {...getFieldProps('password')}
@@ -154,7 +185,7 @@ const SignUp = () => {
 
                         </form>
                         <Typography component="p" variant="p" sx={{ marginTop: '8px', fontSize: '12px' }}>
-                            Don't have an accout? <Link href="#" color="#1565c0">Sing In</Link>
+                            Don't have an accout? <Link href="/signIn" color="#1565c0">Sing In</Link>
                         </Typography>
 
                     </Box>
