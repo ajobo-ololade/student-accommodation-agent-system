@@ -12,10 +12,6 @@ import nine from "../assets/toa-heftiba-bnoPZ9aTyWQ-unsplash.jpg"
 
 const Carousels = () => {
  const data = [
-    // {
-    //   image: one,
-    //   caption: "San Francisco"
-    // },
     {
       image: two,
       caption: "Scotland"
@@ -82,7 +78,7 @@ const Carousels = () => {
             pauseIconSize="40px"
             slideBackgroundColor="darkgrey"
             slideImageFit="cover"
-            thumbnails={true}
+            thumbnails={false}
             thumbnailWidth="50px"
             style={{
               textAlign: "center",

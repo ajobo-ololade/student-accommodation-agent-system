@@ -1,18 +1,19 @@
+import { Container } from '@mui/material'
 import React from 'react'
 import AgentCard from '../componets/AgentCard'
+import Example from '../componets/CardScroll'
 import Carousels from '../componets/Carousel'
 import Navbar from '../componets/Navbar'
-import DashboardLayout from '../Layout/dashboard'
-import ProductCards from './ProductCards'
 
 const Home = () => {
   return (
     <>
-        <Navbar />
-        <Carousels />
-        <ProductCards /> 
+      <Navbar />
+      <Carousels />
+      <Example />
+      <Container>
         <AgentCard />
-        {/* <DashboardLayout /> */}
+      </Container>
     </>
   )
 }

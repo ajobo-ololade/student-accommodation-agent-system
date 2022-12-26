@@ -8,6 +8,7 @@ import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
+import Navbar from '../../componets/Navbar';
 
 
 const Login = () => {
@@ -37,6 +38,7 @@ const Login = () => {
 
     return (
         <>
+        <Navbar />
             <Container component="main" maxWidth="xs">
                 <Box sx={{ margin: 'auto', padding: '5px' }}>
                     <Alert severity="success">Login Succeful</Alert>

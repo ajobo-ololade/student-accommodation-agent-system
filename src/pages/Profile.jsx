@@ -2,16 +2,15 @@ import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
-import { Icon } from '@iconify/react';
 import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-const SignUp = () => {
 
+const Profile = () => {
     const [showPassword, setShowPassword] = useState(false);
     const formik = useFormik({
         initialValues: {
@@ -58,7 +57,7 @@ const SignUp = () => {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h3" variant="h5" sx={{ marginTop: '5px', color: '#1565c0' }}>
-                            Sign Up
+                            Update Profile
                         </Typography>
 
                         <form onSubmit={handleSubmit}>
@@ -184,9 +183,6 @@ const SignUp = () => {
                             </Grid>
 
                         </form>
-                        <Typography component="p" variant="p" sx={{ marginTop: '8px', fontSize: '12px' }}>
-                            Already have an accout? <Link href="/signIn" color="#1565c0">Sing In</Link>
-                        </Typography>
 
                     </Box>
 
@@ -197,4 +193,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default Profile

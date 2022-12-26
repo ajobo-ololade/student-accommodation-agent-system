@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
-import { Icon } from '@iconify/react';
 import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';

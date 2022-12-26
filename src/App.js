@@ -6,6 +6,9 @@ import Home from './pages/Home';
 import DashboardLayout from './Layout/dashboard';
 import { useState } from 'react';
 import HostelUpload from './pages/HostelUpload';
+import Users from './pages/Users';
+import HostelList from './pages/HostelList';
+import Profile from './pages/Profile';
 // import { Box, Container, createTheme, Stack, ThemeProvider } from '@mui/material';
 
 function App() {
@@ -26,6 +29,9 @@ function App() {
       <Route path="/dashboard" element={<DashboardLayout />} />
       <Route path="/dashboard/" element={<DashboardLayout />}>
         <Route path="/dashboard/hostelUpload" element={<HostelUpload />} />
+        <Route path="/dashboard/users" element={<Users />} />
+        <Route path="/dashboard/hostelLists" element={<HostelList />} />
+        <Route path="/dashboard/profile" element={<Profile />} />
       </Route>
     </Routes>
 
