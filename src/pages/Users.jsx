@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import { TableRows } from '@mui/icons-material';
+import Modals from '../componets/Modal';
 
 const Users = () => {
   function createData(name, studentName, hostelName, roomNum) {
@@ -102,6 +103,7 @@ const Users = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <Modals />
     </>
   )
 }
