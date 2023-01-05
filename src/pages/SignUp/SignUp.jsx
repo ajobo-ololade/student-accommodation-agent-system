@@ -1,47 +1,81 @@
 import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
-import { Icon } from '@iconify/react';
+import { Avatar, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { LoadingButton } from '@mui/lab';
+import { SignUpAction } from '../../redux/action/authActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SignUp = () => {
 
+    const dispatch = useDispatch()
+    const { successMessage, errorMessage } = useSelector((state) => state.AuthReducer)
     const [showPassword, setShowPassword] = useState(false);
+    const [sMessage, setSMessage] = useState(false);
+    const [eMessage, setEMessage] = useState(false);
     const formik = useFormik({
         initialValues: {
-            username: ``,
-            password: '',
-            email: '',
-            category: ''
+            first_name: ``,
+            last_name: ``,
+            user_name: ``,
+            password: ``,
+            email: ``,
+            c_password: ``,
+            role_id: 0,
         },
 
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             console.log(values);
+            const data = await dispatch(SignUpAction(values));
+            if (data?.success === true) {
+                setSubmitting(true);
+                setSMessage(true);
+                resetForm()
+                setTimeout(() => {
+                    setSMessage(false)
+                }, 3000);
+            }
+            else {
+                setEMessage(true)
+                setTimeout(() => {
+                    setEMessage(false)
+                }, 3000);
+            }
+            setSubmitting(false)
         },
 
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('Username is required'),
+            first_name: Yup.string().required('Firstname is required'),
+            last_name: Yup.string().required('Lastname is required'),
+            user_name: Yup.string().required('Username is required'),
             email: Yup.string().required('Email is required'),
             password: Yup.string().required('Password is required'),
-            category: Yup.string().required('Category is required'),
+            role_id: Yup.string().required('Category is required'),
         }),
     });
 
-    const { handleSubmit, errors, touched, getFieldProps, resetForm } = formik
+    const { handleSubmit, errors, touched, getFieldProps, isSubmitting } = formik
     const handleShowPassword = () => {
         setShowPassword((show) => !show);
     };
     return (
         <Container component="main" maxWidth="xs">
             <Box sx={{ margin: 'auto', padding: '5px' }}>
-                <Alert severity="success">Login Succeful</Alert>
-                <Alert severity="error">Invalid Crediential</Alert>
+                {
+                    sMessage ?
+                        <Alert severity="success">{successMessage}</Alert>
+                    :
+                    eMessage ?
+                        <Alert severity="error">{errorMessage}</Alert>
+                    :
+                        null
+                }
             </Box>
 
             <Card sx={{ margin: 'auto', marginTop: '50px', padding: '2rem' }} >
@@ -74,13 +108,55 @@ const SignUp = () => {
 
                                     <TextField
 
-                                        id='username'
+                                        id='first_name'
+                                        label='Firstname'
+                                        size='small'
+                                        fullWidth
+                                        {...getFieldProps('first_name')}
+                                        error={Boolean(errors.first_name && touched.first_name)}
+                                        helperText={touched.first_name && errors.first_name}
+
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='last_name'
+                                        label='Lastname'
+                                        size='small'
+                                        fullWidth
+                                        {...getFieldProps('last_name')}
+                                        error={Boolean(errors.last_name && touched.last_name)}
+                                        helperText={touched.last_name && errors.last_name}
+
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='user_name'
                                         label='Username'
                                         size='small'
                                         fullWidth
-                                        {...getFieldProps('username')}
-                                        error={Boolean(errors.username && touched.username)}
-                                        helperText={touched.username && errors.username}
+                                        {...getFieldProps('user_name')}
+                                        error={Boolean(errors.user_name && touched.user_name)}
+                                        helperText={touched.user_name && errors.user_name}
 
                                     />
                                 </Grid>
@@ -117,18 +193,18 @@ const SignUp = () => {
 
                                     <TextField
 
-                                        id='category'
+                                        id='role_id'
                                         label='Category'
                                         size='small'
                                         select
                                         fullWidth
-                                        {...getFieldProps('category')}
-                                        error={Boolean(errors.category && touched.category)}
-                                        helperText={touched.category && errors.category}
+                                        {...getFieldProps('role_id')}
+                                        error={Boolean(errors.role_id && touched.role_id)}
+                                        helperText={touched.role_id && errors.role_id}
 
                                     >
-                                        <MenuItem value="agent">Agent</MenuItem>
-                                        <MenuItem value="student">Student</MenuItem>
+                                        <MenuItem value="1">Agent</MenuItem>
+                                        <MenuItem value="2">Student</MenuItem>
 
 
                                     </TextField>
@@ -171,13 +247,44 @@ const SignUp = () => {
                                     }}
                                 >
 
-                                    <Button
-                                        variant={'contained'}
+                                    <TextField
                                         fullWidth
-                                        type='submit'
+                                        autoComplete="current-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        label="Confirm Password"
+                                        size='small'
+                                        {...getFieldProps('c_password')}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={handleShowPassword} edge="end">
+                                                        {/* <Icon icon={showPassword ? eyeFill : eyeOffFill} /> */}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        error={Boolean(touched.c_password && errors.c_password)}
+                                        helperText={touched.c_password && errors.c_password}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <LoadingButton
+                                        type="submit"
+                                        fullWidth
+                                        color="primary"
+                                        variant="contained"
+                                        loading={isSubmitting}
                                     >
-                                        Sign Up
-                                    </Button>
+                                        Login
+                                    </LoadingButton>
 
                                 </Grid>
 

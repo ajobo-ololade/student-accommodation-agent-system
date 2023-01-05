@@ -9,40 +9,72 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
 import Navbar from '../../componets/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginAction } from '../../redux/action/authActions';
+import { LoadingButton } from '@mui/lab';
+import { useNavigate } from 'react-router';
 
 
 const Login = () => {
 
+    const dispatch = useDispatch()
+    const { successMessage, errorMessage } = useSelector((state) => state.AuthReducer)
     const [showPassword, setShowPassword] = useState(false);
+    const [sMessage, setSMessage] = useState(false);
+    const [eMessage, setEMessage] = useState(false);
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
-            username: ``,
+            email: ``,
             password: '',
         },
 
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             console.log(values);
+            const data = await dispatch(LoginAction(values));
+            if (data?.success === true) {
+                setSubmitting(true);
+                setSMessage(true);
+                resetForm()
+                setTimeout(() => {
+                    setSMessage(false)
+                    navigate("/dashboard")
+                }, 3000);
+            }
+            else {
+                setEMessage(true)
+                setTimeout(() => {
+                    setEMessage(false)
+                }, 3000);
+            }
+            setSubmitting(false)
         },
 
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('Username is required'),
             email: Yup.string().required('Email is required'),
             password: Yup.string().required('Password is required'),
         }),
     });
 
-    const { handleSubmit, errors, touched, getFieldProps, resetForm } = formik
+    const { handleSubmit, errors, touched, getFieldProps, isSubmitting } = formik
     const handleShowPassword = () => {
         setShowPassword((show) => !show);
     };
 
     return (
         <>
-        <Navbar />
+            <Navbar />
             <Container component="main" maxWidth="xs">
                 <Box sx={{ margin: 'auto', padding: '5px' }}>
-                    <Alert severity="success">Login Succeful</Alert>
-                    <Alert severity="error">Invalid Crediential</Alert>
+                    {
+                        sMessage ?
+                            <Alert severity="success">{successMessage}</Alert>
+                            :
+                            eMessage ?
+                                <Alert severity="error">{errorMessage}</Alert>
+                                :
+                                null
+                    }
                 </Box>
 
 
@@ -76,13 +108,14 @@ const Login = () => {
 
                                         <TextField
 
-                                            id='username'
-                                            label='Username'
+                                            id='email'
+                                            label='Email'
                                             size='small'
+                                            type='email'
                                             fullWidth
-                                            {...getFieldProps('username')}
-                                            error={Boolean(errors.username && touched.username)}
-                                            helperText={touched.username && errors.username}
+                                            {...getFieldProps('email')}
+                                            error={Boolean(errors.email && touched.email)}
+                                            helperText={touched.email && errors.email}
 
                                         />
                                     </Grid>
@@ -98,7 +131,7 @@ const Login = () => {
                                         <TextField
                                             fullWidth
                                             autoComplete="current-password"
-                                            // type={showPassword ? 'text' : 'password'}
+                                            type={showPassword ? 'text' : 'password'}
                                             label="Password"
                                             size='small'
                                             {...getFieldProps('password')}
@@ -124,13 +157,15 @@ const Login = () => {
                                         }}
                                     >
 
-                                        <Button
-                                            variant={'contained'}
+                                        <LoadingButton
+                                            type="submit"
                                             fullWidth
-                                            type='submit'
+                                            color="primary"
+                                            variant="contained"
+                                            loading={isSubmitting}
                                         >
-                                            Sign Up
-                                        </Button>
+                                            Login
+                                        </LoadingButton>
 
                                     </Grid>
 
