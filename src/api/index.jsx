@@ -11,10 +11,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   // const token = storageGet('token');
   const token = storageGet('token');
+  // console.log(token, 'I am the token');
 
   if (token) {
     config.headers = {
-      Token: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     };
   }

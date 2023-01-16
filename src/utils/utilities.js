@@ -35,6 +35,7 @@ export const storageGet = (key) => {
   }
   data = decryptStoreData(data);
   data = JSON.parse(data);
+  // console.log(data, "On utilities");
   return data;
 };
 

@@ -1,12 +1,23 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
-import React from 'react'
+import React, { useEffect, } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import { TableRows } from '@mui/icons-material';
 import Modals from '../componets/Modal';
+import { useDispatch } from 'react-redux';
+import { GetUserAction } from '../redux/action/userAction';
+import axios from 'axios';
+import { storageGet } from '../utils/utilities';
 
 const Users = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+  //  dispatch(GetUserAction())
+   const data = dispatch(GetUserAction({'token': storageGet('token')}))
+   console.log(data);
+  }, [])
+  
   function createData(name, studentName, hostelName, roomNum) {
     return {
       name,

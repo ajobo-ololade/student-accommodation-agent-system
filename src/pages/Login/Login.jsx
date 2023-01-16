@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoginAction } from '../../redux/action/authActions';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router';
+import { GetUserAction } from '../../redux/action/userAction';
+import { storageGet, storageSet } from '../../utils/utilities';
 
 
 const Login = () => {
@@ -32,13 +34,16 @@ const Login = () => {
         onSubmit: async (values, { resetForm, setSubmitting }) => {
             console.log(values);
             const data = await dispatch(LoginAction(values));
+            console.log(data);
             if (data?.success === true) {
                 setSubmitting(true);
                 setSMessage(true);
                 resetForm()
                 setTimeout(() => {
                     setSMessage(false)
-                    navigate("/dashboard")
+                    const user = dispatch(GetUserAction({ 'token': storageGet('token') }))
+                    console.log(user);
+                    navigate("/dashboard/")
                 }, 3000);
             }
             else {

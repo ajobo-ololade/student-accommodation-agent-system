@@ -1,46 +1,63 @@
 import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Avatar, Button, TextField, Grid, Link, Typography, IconButton, InputAdornment, MenuItem } from '@mui/material';
+import { Avatar, Button, TextField, Grid, Typography } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { LoadingButton } from '@mui/lab';
+import { CreateHostelAction } from '../redux/action/hostelAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { storageGet } from '../utils/utilities';
 
 const HostelUpload = () => {
 
-    const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.GetUserReducer)
+    console.log(user);
+    const [file, setFile] = useState('')
+    const onChange = (e) => {
+        let picture = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(picture);
+        reader.onloadend = () => {
+            setFile(reader.result);
+        }
+    };
+    const users = JSON.parse(localStorage.getItem('user'));
+    console.log(users);
     const formik = useFormik({
         initialValues: {
-            username: ``,
-            password: '',
-            email: '',
-            category: ''
+            user_id: users.id,
+            hostel_address: '',
+            amount: ``,
         },
 
         onSubmit: async (values, { resetForm }) => {
             console.log(values);
+            const data = await dispatch(CreateHostelAction({...values, image: file}))
+            // console.log(data);
+            if (data?.success === true) {
+                resetForm()
+            }
         },
 
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('Username is required'),
-            email: Yup.string().required('Email is required'),
-            password: Yup.string().required('Password is required'),
-            category: Yup.string().required('Category is required'),
+            hostel_address: Yup.string().required('Hostel Address is required'),
+            amount: Yup.string().required('Amount is required'),
         }),
     });
 
-    const { handleSubmit, errors, touched, getFieldProps, resetForm } = formik
-    const handleShowPassword = () => {
-        setShowPassword((show) => !show);
-    };
+    const { handleSubmit, errors, touched, getFieldProps, isSubmitting } = formik
+    
     return (
         <Container component="main" maxWidth="xs">
-            <Box sx={{ margin: 'auto', padding: '5px' }}>
+            {/* <Box sx={{ margin: 'auto', padding: '5px' }}>
                 <Alert severity="success">Login Succeful</Alert>
                 <Alert severity="error">Invalid Crediential</Alert>
-            </Box>
+            </Box> */}
 
             <Card sx={{ margin: 'auto', marginTop: '50px', padding: '2rem' }} >
                 <CardContent>
@@ -72,13 +89,13 @@ const HostelUpload = () => {
 
                                     <TextField
 
-                                        id='hostel_name'
-                                        label='Hostel Name'
+                                        id='hostel_address'
+                                        label='Hostel Address'
                                         size='small'
                                         fullWidth
-                                        {...getFieldProps('username')}
-                                        error={Boolean(errors.username && touched.username)}
-                                        helperText={touched.username && errors.username}
+                                        {...getFieldProps('hostel_address')}
+                                        error={Boolean(errors.hostel_address && touched.hostel_address)}
+                                        helperText={touched.hostel_address && errors.hostel_address}
 
                                     />
                                 </Grid>
@@ -93,38 +110,16 @@ const HostelUpload = () => {
 
                                     <TextField
 
-                                        id='hostel_location'
-                                        label='Hostel Location'
-                                        size='small'
-                                        fullWidth
-                                        type='text'
-                                        {...getFieldProps('email')}
-                                        error={Boolean(errors.email && touched.email)}
-                                        helperText={touched.email && errors.email}
-
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                    }}
-                                >
-
-                                    <TextField
-
-                                        id='hostel_price'
+                                        id='amount'
                                         label='Hostel Price'
                                         size='small'
                                         fullWidth
-                                        {...getFieldProps('category')}
-                                        error={Boolean(errors.category && touched.category)}
-                                        helperText={touched.category && errors.category}
+                                        type='text'
+                                        {...getFieldProps('amount')}
+                                        error={Boolean(errors.amount && touched.amount)}
+                                        helperText={touched.amount && errors.amount}
 
                                     />
-
                                 </Grid>
 
                                 <Grid item xs={12}
@@ -135,9 +130,9 @@ const HostelUpload = () => {
                                     }}
                                 >
 
-                                    <Button variant="contained" component="label">
-                                        Upload Hostel Image
-                                        <input hidden accept="image/*" multiple type="file" />
+                                    <Button variant="contained" component="label" type='button'>
+                                        Hostel Image
+                                        <input hidden accept="image/*" multiple type="file" onChange={onChange} />
                                     </Button>
 
                                 </Grid>
@@ -150,22 +145,22 @@ const HostelUpload = () => {
                                     }}
                                 >
 
-                                    <Button
-                                        variant={'contained'}
+                                    <LoadingButton
+                                        type="submit"
                                         fullWidth
-                                        type='submit'
+                                        color="primary"
+                                        variant="contained"
+                                        loading={isSubmitting}
+                                        // onClick={check}
                                     >
-                                        Post
-                                    </Button>
+                                        upload
+                                    </LoadingButton>
 
                                 </Grid>
 
                             </Grid>
 
                         </form>
-                        {/* <Typography component="p" variant="p" sx={{ marginTop: '8px', fontSize: '12px' }}>
-                            Don't have an accout? <Link href="/signIn" color="#1565c0">Sing In</Link>
-                        </Typography> */}
 
                     </Box>
 

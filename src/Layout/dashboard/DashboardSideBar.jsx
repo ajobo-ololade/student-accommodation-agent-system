@@ -4,6 +4,7 @@ import { Home, Article, Settings, Group, Storefront, Person, AccountBox, ModeNig
 import Drawer from '@mui/material/Drawer';
 import PropTypes from 'prop-types';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import { Link } from 'react-router-dom';
 
 export const DashboardSideBar = ({drawerWidth, container, mobileOpen}) => {
   const sideContent = [
@@ -45,7 +46,7 @@ export const DashboardSideBar = ({drawerWidth, container, mobileOpen}) => {
           {sideContent.map(({ title, path, icon }) => (
             <List>
               <ListItem disablePadding>
-                <ListItemButton component="a" href={path}>
+                <ListItemButton component={Link} to={path}>
                   <ListItemIcon>
                     {icon}
                   </ListItemIcon>

@@ -7,3 +7,11 @@ export const loadingActionTypes = {
     IS_LOADING: "IS_LOADING",
     IS_LOADING_DONE: "IS_LOADING_DONE",
 }
+
+export const getUserActionType = {
+    USER: "USER"
+}
+
+export const getHostelActionType = {
+    HOSTEL: "HOSTEL"
+}

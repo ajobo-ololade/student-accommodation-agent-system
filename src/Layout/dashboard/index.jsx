@@ -70,8 +70,8 @@ function DashboardLayout(props) {
           <Grid item xs={12}>
             <DashboardNavBar setOpen={setOpen} />
           </Grid>
-          <Grid item xs={12} sx={{ }}>
-            <Outlet style={{padding: '2rem'}}/>
+          <Grid item xs={12} sx={{ }} p={2}>
+            <Outlet />
           </Grid>
         </Grid>
       </Grid>

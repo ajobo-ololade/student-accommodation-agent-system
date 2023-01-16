@@ -8,9 +8,11 @@ export const LoginAction = (values) => async (dispatch) => {
     //   type: loadingActionTypes.ISLOADING,
     // });
     const data = await loginRequest(values);
-    // console.log(data)
+    console.log(data);
     if (data?.success === true) {
-      storageSet("token", data.token);
+      // storageSet("token", data.token);
+      storageSet("token", data?.data.token);
+        // storageSet("data", data?.data);
       dispatch({
         type: messageActionType.SUCCESS_MESSAGE,
         payload: data.message,
