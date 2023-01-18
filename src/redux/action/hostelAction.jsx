@@ -7,6 +7,17 @@ export const CreateHostelAction = (value) => async (dispatch) => {
         console.log(value);
         const data = await createHostelRequest(value);
         console.log(data);
+        if (data?.success === true) {
+            dispatch({
+                type: messageActionType.SUCCESS_MESSAGE,
+                payload: data?.message
+            })
+        }else{
+            dispatch({
+                type: messageActionType.ERROR_MESSAGE,
+                payload: data?.message
+            })
+        }
 
         return data;
         

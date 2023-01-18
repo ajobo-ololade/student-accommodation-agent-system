@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, LinearProgress, FormControl, InputLabel, FilledInput, InputAdornment, } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Button, FormControl, InputLabel, FilledInput, InputAdornment, } from '@mui/material';
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const HostelList = () => {
   const dispatch = useDispatch()
-  const { hostel, isLoading } = useSelector((state) => state.HostelReducer);
+  const { hostel } = useSelector((state) => state.HostelReducer);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
@@ -82,15 +82,20 @@ const HostelList = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const [searchAccomo, setSearchAccomo] = useState('')
+  console.log(searchAccomo);
   return (
     <>
     <EditModal handleEditOpen={handleEditOpen} handleEditClose={handleEditClose} open={editOpen} editObj={editObj} />
     <DetailsModal handleViewOpen={handleViewOpen} handleViewClose={handleViewClose} details={details} open={detailsOpen} />
-    <DeleteModal  handleDelOpen={handleDelOpen} handleDelClose={handleDelClose} open={delOpen} delObj={delObj} />
+    <DeleteModal  handleDelOpen={handleDelOpen} handleDelClose={handleDelClose} onClose={handleDelClose} open={delOpen} delObj={delObj} setDelOpen={setDelOpen} />
+    
     <FormControl fullWidth sx={{ m: 1 }} variant="filled">
           <InputLabel htmlFor="filled-adornment-search">Search</InputLabel>
           <FilledInput
             id="filled-adornment-search"
+            value={searchAccomo} 
+            onChange={(e) => setSearchAccomo(e.target.value)}
             startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
           />
         </FormControl>
@@ -107,7 +112,16 @@ const HostelList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hostel.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
+            {hostel?.filter((accomo) => {
+                            if (searchAccomo === '') {
+                                return accomo
+                            } else if (accomo.hostel_address.includes(searchAccomo)) {
+                                return accomo
+                            }
+                            else {
+                                return "User does not exist"
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
               <TableRow key={id}>
                 <TableCell sx={{ textAlign: 'center' }}>{id + 1}</TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>${host.amount}.00</TableCell>

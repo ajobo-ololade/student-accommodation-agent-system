@@ -15,7 +15,10 @@ import { storageGet } from '../utils/utilities';
 const HostelUpload = () => {
 
     const dispatch = useDispatch()
-    const { user } = useSelector((state) => state.GetUserReducer)
+    const { user } = useSelector((state) => state.GetUserReducer);
+    const {  successMessage, errorMessage } = useSelector((state) => state.HostelReducer)
+    const [sMessage, setSMessage] = useState(false);
+    const [eMessage, setEMessage] = useState(false);
     console.log(user);
     const [file, setFile] = useState('')
     const onChange = (e) => {
@@ -26,22 +29,33 @@ const HostelUpload = () => {
             setFile(reader.result);
         }
     };
-    const users = JSON.parse(localStorage.getItem('user'));
-    console.log(users);
     const formik = useFormik({
         initialValues: {
-            user_id: users.id,
+            user_id: user.id,
             hostel_address: '',
             amount: ``,
         },
 
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             console.log(values);
             const data = await dispatch(CreateHostelAction({...values, image: file}))
             // console.log(data);
             if (data?.success === true) {
                 resetForm()
+                setSubmitting(true);
+                setSMessage(true);
+                resetForm()
+                setTimeout(() => {
+                    setSMessage(false)
+                }, 3000);
             }
+            else {
+                setEMessage(true)
+                setTimeout(() => {
+                    setEMessage(false)
+                }, 3000);
+            }
+            setSubmitting(false)
         },
 
         validationSchema: Yup.object().shape({
@@ -54,10 +68,17 @@ const HostelUpload = () => {
     
     return (
         <Container component="main" maxWidth="xs">
-            {/* <Box sx={{ margin: 'auto', padding: '5px' }}>
-                <Alert severity="success">Login Succeful</Alert>
-                <Alert severity="error">Invalid Crediential</Alert>
-            </Box> */}
+            <Box sx={{ margin: 'auto', padding: '5px' }}>
+                    {
+                        sMessage ?
+                            <Alert severity="success">{successMessage}</Alert>
+                            :
+                            eMessage ?
+                                <Alert severity="error">{errorMessage}</Alert>
+                                :
+                                null
+                    }
+                </Box>
 
             <Card sx={{ margin: 'auto', marginTop: '50px', padding: '2rem' }} >
                 <CardContent>

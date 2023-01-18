@@ -1,4 +1,5 @@
 import React from 'react';
+// , { useEffect }
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import { Box, Card, Link, Typography, Stack, Grid } from '@mui/material';
@@ -10,9 +11,9 @@ import four from "../assets/marcus-loke-WQJvWU_HZFo-unsplash.jpg"
 import five from "../assets/merlin_174147483_ab6611b2-b57f-49ac-86bd-baa4c4892881-mobileMasterAt3x.jpg"
 import six from "../assets/mosaic-hostel-belgrade.jpg"
 import seven from "../assets/nick-kimel-GrLnSHJT1fI-unsplash.jpg"
-import eight from "../assets/sreesanth-p-NHVI1dkl6WU-unsplash.jpg"
-import nine from "../assets/toa-heftiba-bnoPZ9aTyWQ-unsplash.jpg"
+// import nine from "../assets/toa-heftiba-bnoPZ9aTyWQ-unsplash.jpg"
 import Label from '../componets/Label/Label';
+// import axios from 'axios';
 
 const responsiveSettings = [
     {
@@ -90,6 +91,11 @@ const StyledProductImg = styled('img')({
     position: 'absolute',
 });
 const Example = () => {
+    // useEffect(() => {
+    //     const hostel = axios.get(`accommodations`).then((res) => res.data);
+    //     console.log(hostel);
+    // }, [])
+    
     return (
         <div>
             <Box sx={{ textAlign: 'center', marginTop: "10px" }}>

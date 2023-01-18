@@ -1,23 +1,21 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Button, Card, Link, Typography, Stack, Grid, TextField } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button, Typography, Grid, TextField, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteHostelAction, EditHostelAction } from '../../../redux/action/hostelAction';
+import { DeleteHostelAction, EditHostelAction, GetHostelAction } from '../../../redux/action/hostelAction';
 
 export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) => {
     const [file, setFile] = React.useState('')
-    const { successMessage, errorMessage } = useSelector((state) => state.HostelReducer);
+    // const { successMessage, errorMessage } = useSelector((state) => state.HostelReducer);
     const dispatch = useDispatch()
     React.useEffect(() => {
         if (editObj) {
-            const { user_id, amount, hostel_address, } = editObj;
-            // setFieldValue('user_id', user_id);
-            setFieldValue('  amount', amount);
+            const { amount, hostel_address, } = editObj;
+            setFieldValue('amount', amount);
             setFieldValue('hostel_address', hostel_address);
         }
     }, [editObj]);
@@ -133,16 +131,8 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
     );
 }
 
-const StyledProductImg = styled('img')({
-    top: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    position: 'absolute',
-});
-
 export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details }) => {
-
+    const { image, hostel_address, amount } = details
     return (
         <div>
             {/* <Button onClick={handleViewOpen}>Open modal</Button> */}
@@ -165,58 +155,26 @@ export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details })
                             <Grid container>
                                 <Grid item xs={12} sx={{ backgroundColor: 'white', px: 2 }} >
                                     <Typography variant='h4' sx={{ fontWeight: 200, my: 1, textAlign: 'center', fontSize: '20px' }}>
-                                        Edit Hostel
+                                        Hostel Details
                                     </Typography>
-                                    <Card>
-                                        <Box sx={{}}>
-                                            {/* {status && (
-                                    <Label
-                                        variant="filled"
-                                        color={(status === 'sold' && 'error') || 'info'}
-
-                                        sx={{
-                                            zIndex: 9,
-                                            top: 16,
-                                            right: 16,
-                                            position: 'absolute',
-                                            textTransform: 'uppercase',
-                                        }}
-                                    >
-                                        {status}
-                                    </Label>
-                                )} */}
-                                            <StyledProductImg alt={'name'} src={details.image} />
-
-                                        </Box>
-
-                                        <Stack spacing={2} sx={{ p: 3 }}>
-                                            <Link color="inherit" underline="hover">
-                                                <Typography variant="subtitle2" noWrap>
-                                                    {details.name}
+                                    {/* <Card sx={{ maxWidth: 345 }}> */}
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component="img"
+                                                height="140"
+                                                image={image}
+                                                alt="green iguana"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="p" component="div">
+                                                    Location: {hostel_address}
                                                 </Typography>
-                                            </Link>
-
-                                            <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                                {/* <ColorPreview colors={colors} /> */}
-                                                <Typography
-                                                    component="span"
-                                                    variant="p"
-                                                    sx={{
-                                                        fontSize: "12px"
-                                                    }}
-                                                >
-                                                    {details.hostel_adress}
+                                                <Typography variant="p" color="text.secondary">
+                                                    Amount: ${amount}
                                                 </Typography>
-                                                <Typography variant="p" sx={{
-                                                    fontSize: "12px"
-                                                }}>
-                                                    &nbsp;
-                                                    {details.hostel_amount}
-                                                    {/* {fCurrency(price)} */}
-                                                </Typography>
-                                            </Stack>
-                                        </Stack>
-                                    </Card>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    {/* </Card> */}
 
                                 </Grid>
                             </Grid>
@@ -231,20 +189,18 @@ export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details })
 }
 
 
-export const DeleteModal = ({ open, handleDelClose, handleDelOpen, delObj }) => {
+export const DeleteModal = ({ open, onClose, handleDelClose, handleDelOpen, delObj }) => {
 
     const dispatch = useDispatch();
-    const { successMessage, errorMessage } = useSelector((state) => state.HostelReducer);
-    React.useEffect(() => {
-        if (delObj) {
-            const { user_id, amount, hostel_address, } = delObj;
-            // setFieldValue('user_id', user_id);
-            // setFieldValue('  amount', amount);
-            // setFieldValue('hostel_address', hostel_address);
-        }
-    }, [delObj]);
+    // const { successMessage, errorMessage } = useSelector((state) => state.HostelReducer);
+    React.useEffect(() => {}, [delObj]);
     const delHostel = async () => {
         const data = await dispatch(DeleteHostelAction(delObj.id));
+        if (data?.success === true) {
+            alert("Hostel deleted successfully");
+            dispatch(GetHostelAction());
+            handleDelClose();
+        }
         console.log(data);
     }
     return (
@@ -252,7 +208,7 @@ export const DeleteModal = ({ open, handleDelClose, handleDelOpen, delObj }) => 
             {/* <Button onClick={handleDelOpen}>Open modal</Button> */}
             <Modal
                 open={open}
-                onClose={handleDelClose}
+                onClose={onClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -271,15 +227,19 @@ export const DeleteModal = ({ open, handleDelClose, handleDelOpen, delObj }) => 
                                     <Typography variant='h4' sx={{ fontWeight: 20, my: 1, textAlign: 'center', fontSize: '20px' }}>
                                         Delete Hostel
                                     </Typography>
+
+                                    <Typography variant='p' sx={{ fontWeight: 20, display: 'flex', justifyContent: 'center' }}>
+                                        Are you sure you want to delete this?
+                                    </Typography>
                                     {/* <Card> */}
-                                    <Box sx={{ display: 'flex', alignItem: 'center', width: '80%', margin: 'auto' }}>
+                                    <Box sx={{ display: 'flex', alignItem: 'center', width: '70%', margin: 'auto' }}>
                                         <Grid xs={6} p={2}>
                                             <Button
                                                 variant="contained"
                                                 color='error'
                                                 onClick={delHostel}
                                             >
-                                                Delete
+                                                Yes
                                             </Button>
                                         </Grid>
                                         <Grid xs={6} p={2}>
@@ -287,7 +247,7 @@ export const DeleteModal = ({ open, handleDelClose, handleDelOpen, delObj }) => 
                                                 variant="contained"
                                                 onClicK={handleDelClose}
                                             >
-                                                Cancel
+                                                No
                                             </Button>
                                         </Grid>
                                     </Box>

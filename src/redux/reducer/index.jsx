@@ -6,5 +6,5 @@ import { HostelReducer } from '../reducer/hostelReducer'
 export const reducers = combineReducers({
     AuthReducer,
     GetUserReducer,
-    HostelReducer
+    HostelReducer,
 });
