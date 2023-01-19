@@ -3,8 +3,8 @@ import { messageActionType, getAgentActionType, getMessageActionType } from "../
 const initialStates = {
     successMessage: '',
     errorMessage: '',
+    agent: [],
     chats: [],
-    agents: [],
 };
 
 export const ChatReducer = (state = initialStates, { type, payload }) => {
@@ -19,13 +19,13 @@ export const ChatReducer = (state = initialStates, { type, payload }) => {
         case getAgentActionType.AGENTS:
             return {
                 ...state,
-                agents: payload
+                agent: payload
             }
 
         case getMessageActionType.MESSAGES:
             return {
                 ...state,
-                chat: payload
+                chats: payload
             }
 
         case messageActionType.ERROR_MESSAGE:

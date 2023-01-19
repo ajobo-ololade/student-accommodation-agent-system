@@ -40,6 +40,7 @@ export const GetHostelAction = (value) => async (dispatch) => {
             payload: data,
            })
         // }
+        
     } catch (error) {
         dispatch({ type: loadingActionTypes.IS_LOADING_DONE, });
         console.log(error)

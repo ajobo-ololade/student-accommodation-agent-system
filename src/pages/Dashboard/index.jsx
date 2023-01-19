@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAgentAction, GetMessageAction } from '../redux/action/chatAction';
-import { GetHostelAction } from '../redux/action/hostelAction';
+import { GetAgentAction, GetMessageAction } from '../../redux/action/chatAction';
+import { GetHostelAction } from '../../redux/action/hostelAction';
 import { Box, Card, Link, Typography, Stack, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Label from '../componets/Label/Label';
+import Label from '../../componets/Label/Label';
 import { useState } from 'react';
-import one from "../assets/citybackpackers1.jpg"
+import one from "../../assets/citybackpackers1.jpg"
+import { ChatPrompt } from './components/Chat'
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -29,10 +30,23 @@ const Dashboard = () => {
     });
     // console.log(hostel);
   }, [])
+  const [open, setopen] = useState(false);
+  const [obj, setobj] = useState({})
+  const handleOpen = (e) => {
+    setopen(true)
+    setobj(e)
+    console.log(e)
+  }
+  const handleClose = () => {
+    setopen(false)
+    // console.log(e)
+  }
   return (
-    <div style={{display: 'flex'}}>
-      {hostels.map(({ hostel_address, amount, facilities, info, image }, id) => (
-        <Grid key={id} item xs={12} sm={6} md={3} sx={{ padding: "1rem", backgroundColor: "white",  }}>
+   <div>
+   <ChatPrompt open={open} onClose={handleClose} obj={obj} />
+    <Box sx={{display: 'flex'}}>
+      {hostels.map((host, id) => (
+        <Grid key={id} item xs={12} sm={6} md={3} sx={{ padding: "1rem", backgroundColor: "white", cursor:'pointer'  }} onClick={(e) => handleOpen(host)}>
           <Card>
             <Box sx={{ pt: '100%', position: 'relative' }}>
               <Label
@@ -48,16 +62,16 @@ const Dashboard = () => {
                 }}
               >
 
-                ${amount}.00
+                ${host.amount}.00
               </Label>
-              <StyledProductImg alt={'name'} src={image} />
+              <StyledProductImg alt={'name'} src={one} />
 
             </Box>
 
             <Stack spacing={2} sx={{ p: 3 }}>
               <Link color="inherit" underline="hover">
                 <Typography variant="subtitle2" noWrap>
-                  {hostel_address}
+                  {host.hostel_address}
                 </Typography>
               </Link>
 
@@ -70,12 +84,14 @@ const Dashboard = () => {
                     fontSize: "12px"
                   }}
                 >
-                  {facilities}
+                  {host.facilities}
                 </Typography>
-                <Typography variant="p" sx={{
+              </Stack>
+              <Stack>
+              <Typography variant="p" sx={{
                   fontSize: "12px"
                 }}>
-                  {info}
+                  {host.info}
                   {/* {fCurrency(price)} */}
                 </Typography>
               </Stack>
@@ -83,7 +99,8 @@ const Dashboard = () => {
           </Card>
         </Grid>
       ))}
-    </div>
+    </Box>
+   </div>
   )
 }
 

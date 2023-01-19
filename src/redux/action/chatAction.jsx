@@ -50,11 +50,13 @@ export const GetAgentAction = (value) => async (dispatch) => {
     try {
         
         const data = await getAgentRequest(value);
-        console.log(data);
-        dispatch({
-            type: getAgentActionType.AGENTS,
-            paylad: data.agentlist,
-        })
+        if (data?.success) {
+            console.log(data.data.data);
+            dispatch({
+                type: getAgentActionType.AGENTS,
+                paylad: data?.data.data,
+            })
+        }
 
         return data;
 
