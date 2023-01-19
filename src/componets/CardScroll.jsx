@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // , { useEffect }
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
@@ -13,6 +13,7 @@ import six from "../assets/mosaic-hostel-belgrade.jpg"
 import seven from "../assets/nick-kimel-GrLnSHJT1fI-unsplash.jpg"
 // import nine from "../assets/toa-heftiba-bnoPZ9aTyWQ-unsplash.jpg"
 import Label from '../componets/Label/Label';
+import axios from 'axios';
 // import axios from 'axios';
 
 const responsiveSettings = [
@@ -91,10 +92,12 @@ const StyledProductImg = styled('img')({
     position: 'absolute',
 });
 const Example = () => {
-    // useEffect(() => {
-    //     const hostel = axios.get(`accommodations`).then((res) => res.data);
-    //     console.log(hostel);
-    // }, [])
+    useEffect(() => {
+        const hostel = axios.get(`http://127.0.0.1:8000/api/accommodations/public`).then((res) => {
+            console.log(res.data);
+        });
+        // console.log(hostel);
+    }, [])
     
     return (
         <div>

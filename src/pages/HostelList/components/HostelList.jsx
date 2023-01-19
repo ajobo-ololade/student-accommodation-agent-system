@@ -17,7 +17,7 @@ const HostelList = () => {
   const [delOpen, setDelOpen] = useState(false);
   const [details, setDetails] = useState({})
   const [editObj, setEditObj] = useState({});
-    const [delObj, setDelObj] = useState({});
+  const [delObj, setDelObj] = useState({});
   const handleEditOpen = (e) => {
     setEditOpen(true)
     setEditObj(e)
@@ -33,7 +33,7 @@ const HostelList = () => {
     setDetailsOpen(false)
     // setDetails()
   }
-  const handleDelOpen = (e) =>{
+  const handleDelOpen = (e) => {
     setDelOpen(true)
     setDelObj(e)
   }
@@ -86,19 +86,20 @@ const HostelList = () => {
   console.log(searchAccomo);
   return (
     <>
-    <EditModal handleEditOpen={handleEditOpen} handleEditClose={handleEditClose} open={editOpen} editObj={editObj} />
-    <DetailsModal handleViewOpen={handleViewOpen} handleViewClose={handleViewClose} details={details} open={detailsOpen} />
-    <DeleteModal  handleDelOpen={handleDelOpen} handleDelClose={handleDelClose} onClose={handleDelClose} open={delOpen} delObj={delObj} setDelOpen={setDelOpen} />
-    
-    <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-          <InputLabel htmlFor="filled-adornment-search">Search</InputLabel>
-          <FilledInput
-            id="filled-adornment-search"
-            value={searchAccomo} 
-            onChange={(e) => setSearchAccomo(e.target.value)}
-            startAdornment={<InputAdornment position="start"><SearchIcon/></InputAdornment>}
-          />
-        </FormControl>
+      <EditModal handleEditOpen={handleEditOpen} handleEditClose={handleEditClose} open={editOpen} editObj={editObj} />
+      <DetailsModal handleViewOpen={handleViewOpen} handleViewClose={handleViewClose} details={details} open={detailsOpen} />
+      <DeleteModal handleDelOpen={handleDelOpen} handleDelClose={handleDelClose} onClose={handleDelClose} open={delOpen} delObj={delObj} setDelOpen={setDelOpen} />
+
+      <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-search">Search</InputLabel>
+        <FilledInput
+          id="filled-adornment-search"
+          value={searchAccomo}
+          onChange={(e) => setSearchAccomo(e.target.value)}
+          startAdornment={<InputAdornment position="start"><SearchIcon /></InputAdornment>}
+        />
+      </FormControl>
+
       <TableContainer>
         {/* {isLoading ? <LinearProgress /> : null} */}
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -112,16 +113,7 @@ const HostelList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hostel?.filter((accomo) => {
-                            if (searchAccomo === '') {
-                                return accomo
-                            } else if (accomo.hostel_address.includes(searchAccomo)) {
-                                return accomo
-                            }
-                            else {
-                                return "User does not exist"
-                            }
-                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
+            {hostel.filter(obj => obj.hostel_address.includes(searchAccomo)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
               <TableRow key={id}>
                 <TableCell sx={{ textAlign: 'center' }}>{id + 1}</TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>${host.amount}.00</TableCell>
@@ -129,8 +121,8 @@ const HostelList = () => {
                 {/* <TableCell sx={{ textAlign: 'center' }}><Avatar alt="Remy Sharp" src={image} variant='squre'/> </TableCell> */}
                 <TableCell sx={{ textAlign: 'center' }}>available </TableCell>
                 <TableCell sx={{ textAlign: 'center' }}><Button variant="text" onClick={() => handleViewOpen(host.id)}>View Details</Button></TableCell>
-                <TableCell sx={{ textAlign: 'center' }}><EditIcon sx={{ color: 'green', cursor:'pointer' }} onClick={() => handleEditOpen(host)} /></TableCell>
-                <TableCell sx={{ textAlign: 'center' }}><DeleteIcon sx={{ color: 'red', cursor:'pointer' }} onClick={() => handleDelOpen(host)} /></TableCell>
+                <TableCell sx={{ textAlign: 'center' }}><EditIcon sx={{ color: 'green', cursor: 'pointer' }} onClick={() => handleEditOpen(host)} /></TableCell>
+                <TableCell sx={{ textAlign: 'center' }}><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelOpen(host)} /></TableCell>
                 {/* {host.image} */}
                 {/* <img src={image} alt="" /> */}
               </TableRow>

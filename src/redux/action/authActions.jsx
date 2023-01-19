@@ -21,7 +21,7 @@ export const LoginAction = (values) => async (dispatch) => {
     else {
       dispatch({
         type: messageActionType.SUCCESS_MESSAGE,
-        payload: data.message,
+        payload: "Invalid Login details",
       });
     }
     // dispatch({

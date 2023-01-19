@@ -15,7 +15,7 @@ export const CreateHostelAction = (value) => async (dispatch) => {
         }else{
             dispatch({
                 type: messageActionType.ERROR_MESSAGE,
-                payload: data?.message
+                payload: "Unable to upload hostel details"
             })
         }
 
@@ -70,6 +70,11 @@ export const EditHostelAction = (value) => async (dispatch) => {
                 type: messageActionType.SUCCESS_MESSAGE,
                 payload: data?.message
             })
+        }else{
+            dispatch({
+                type: messageActionType.ERROR_MESSAGE,
+                payload: 'Unable to edit hostel details'
+            })
         }
 
         return data;
@@ -89,6 +94,11 @@ export const DeleteHostelAction = (value) => async (dispatch) => {
             dispatch({
                 type: messageActionType.SUCCESS_MESSAGE,
                 payload: data?.message
+            })
+        }else{
+            dispatch({
+                type: messageActionType.ERROR_MESSAGE,
+                payload: 'Unable to delete hostel details'
             })
         }
 

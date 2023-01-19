@@ -39,6 +39,7 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
             const data = await dispatch(EditHostelAction({ ...values, image: file, id: editObj.id, }))
             console.log(data);
             setSubmitting(true)
+            dispatch(GetHostelAction())
             // handleEditClose()
         },
 
@@ -165,6 +166,7 @@ export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details })
                                                 image={image}
                                                 alt="green iguana"
                                             />
+                                            <img src={`http://localhost:8000/public/uploads/${image}`} />
                                             <CardContent>
                                                 <Typography gutterBottom variant="p" component="div">
                                                     Location: {hostel_address}

@@ -27,7 +27,7 @@ const Login = () => {
     const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
-            email: ``,
+            user_name: ``,
             password: '',
         },
 
@@ -56,7 +56,7 @@ const Login = () => {
         },
 
         validationSchema: Yup.object().shape({
-            email: Yup.string().required('Email is required'),
+            user_name: Yup.string().required('Username is required'),
             password: Yup.string().required('Password is required'),
         }),
     });
@@ -113,14 +113,14 @@ const Login = () => {
 
                                         <TextField
 
-                                            id='email'
-                                            label='Email'
+                                            id='user_name'
+                                            label='Username'
                                             size='small'
-                                            type='email'
+                                            // type='user_name'
                                             fullWidth
-                                            {...getFieldProps('email')}
-                                            error={Boolean(errors.email && touched.email)}
-                                            helperText={touched.email && errors.email}
+                                            {...getFieldProps('user_name')}
+                                            error={Boolean(errors.user_name && touched.user_name)}
+                                            helperText={touched.user_name && errors.user_name}
 
                                         />
                                     </Grid>
