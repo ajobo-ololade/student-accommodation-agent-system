@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from "@mui/material";
-import { Home, Article, Settings, Group, Storefront, Person, AccountBox, ModeNight } from '@mui/icons-material';
+import { Home, Article, Settings,Group, Storefront, Person, AccountBox, ModeNight } from '@mui/icons-material';
+// import MailIcon from '@mui/icons-material/Mail';
 import Drawer from '@mui/material/Drawer';
 import PropTypes from 'prop-types';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
@@ -26,7 +27,7 @@ export const DashboardSideBar = ({ drawerWidth, container, mobileOpen }) => {
       icon: <DriveFolderUploadIcon sx={{ color: "white" }} />
     },
     {
-      title: 'Users',
+      title: 'Inbox',
       path: '/dashboard/users',
       icon: <Group sx={{ color: "white" }} />
     },
