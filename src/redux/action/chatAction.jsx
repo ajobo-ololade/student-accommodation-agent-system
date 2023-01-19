@@ -1,5 +1,5 @@
 import { createMessageRequest, deleteMessageRequest, editMessageRequest, getAgentRequest, getMessageRequest } from "../../api/chatRequests";
-import { getMessageActionType, messageActionType, loadingActionTypes } from "../type";
+import { getMessageActionType, messageActionType, loadingActionTypes, getAgentActionType } from "../type";
 
 export const CreateMessageAction = (value) => async (dispatch) => {
 
@@ -51,6 +51,10 @@ export const GetAgentAction = (value) => async (dispatch) => {
         
         const data = await getAgentRequest(value);
         console.log(data);
+        dispatch({
+            type: getAgentActionType.AGENTS,
+            paylad: data.agentlist,
+        })
 
         return data;
 
