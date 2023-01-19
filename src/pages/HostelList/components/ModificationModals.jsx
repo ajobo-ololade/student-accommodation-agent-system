@@ -14,9 +14,12 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
     const dispatch = useDispatch()
     React.useEffect(() => {
         if (editObj) {
-            const { amount, hostel_address, } = editObj;
+            const { amount, hostel_address,info,facilities } = editObj;
             setFieldValue('amount', amount);
             setFieldValue('hostel_address', hostel_address);
+            setFieldValue('hostel_facility', facilities);
+            setFieldValue('hostel_info', info);
+            
         }
     }, [editObj]);
     const onChange = (e) => {
@@ -32,8 +35,8 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
 
             hostel_address: '',
             amount: ``,
-            hostel_facility:'',
-            hostel_info:'',
+            facilities:'',
+            info:'',
         },
 
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -111,28 +114,28 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
 
                                              <TextField
                                                 sx={{ my: 1 }}
-                                                id='hostel_info'
+                                                id='info'
                                                 label='Hostel Information'
                                                 size='small'
                                                 fullWidth
-                                                value={values.hostel_info}
+                                                value={values.info}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                error={Boolean(errors.hostel_info && touched.hostel_info)}
-                                                helperText={touched.hostel_info && errors.hostel_info}
+                                                error={Boolean(errors.info && touched.info)}
+                                                helperText={touched.info && errors.info}
 
                                             />
                                              <TextField
                                                 sx={{ my: 1 }}
-                                                id='hostel_facility'
+                                                id='facilities'
                                                 label='Hostel Facility'
                                                 size='small'
                                                 fullWidth
-                                                value={values.hostel_facility}
+                                                value={values.facilities}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
-                                                error={Boolean(errors.hostel_facility && touched.hostel_facility)}
-                                                helperText={touched.hostel_facility && errors.hostel_facility}
+                                                error={Boolean(errors.facilities && touched.facilities)}
+                                                helperText={touched.facilities && errors.facilities}
 
                                             />
                                             <Button variant="contained" component="label" type='button' sx={{ my: 1, }}>
@@ -164,7 +167,7 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
 }
 
 export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details }) => {
-    const { image, hostel_address, amount } = details
+    const { image, hostel_address, amount,facilities,info } = details
     return (
         <div>
             {/* <Button onClick={handleViewOpen}>Open modal</Button> */}
@@ -201,6 +204,12 @@ export const DetailsModal = ({ open, handleViewClose, handleViewOpen, details })
                                             <CardContent>
                                                 <Typography gutterBottom variant="p" component="div">
                                                     Location: {hostel_address}
+                                                </Typography>
+                                                <Typography gutterBottom variant="p" component="div">
+                                                    Facilities: {facilities}
+                                                </Typography>
+                                                <Typography gutterBottom variant="p" component="div">
+                                                    Information: {info}
                                                 </Typography>
                                                 <Typography variant="p" color="text.secondary">
                                                     Amount: ${amount}
