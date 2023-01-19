@@ -12,6 +12,10 @@ export const getUserActionType = {
     USER: "USER"
 }
 
+export const getMessageActionType = {
+    MESSAGES: "MESSAGES"
+}
+
 export const getHostelActionType = {
     HOSTEL: "HOSTEL"
 }

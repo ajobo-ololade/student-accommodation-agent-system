@@ -43,7 +43,7 @@ const Login = () => {
                     setSMessage(false)
                     const user = dispatch(GetUserAction({ 'token': storageGet('token') }))
                     console.log(user);
-                    navigate("/dashboard/")
+                    navigate("/dashboard/dash")
                 }, 3000);
             }
             else {

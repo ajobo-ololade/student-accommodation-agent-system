@@ -20,7 +20,6 @@ const HostelUpload = () => {
     const [sMessage, setSMessage] = useState(false);
     const [eMessage, setEMessage] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
     const [file, setFile] = useState('')
     const onChange = (e) => {
         let picture = e.target.files[0];

@@ -8,31 +8,51 @@ import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useDispatch } from 'react-redux';
+import { UpdateUserAction } from '../redux/action/userAction';
 
 
 const Profile = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    const dispatch = useDispatch()
+    React.useEffect(() => {
+        if (user) {
+            const { first_name, last_name, user_name, email, role_id } = user;
+            setFieldValue('first_name', first_name);
+            setFieldValue('last_name', last_name);
+            setFieldValue('user_name', user_name);
+            setFieldValue('email', email);
+            setFieldValue('role_id', role_id);
+        }
+    }, []);
     const [showPassword, setShowPassword] = useState(false);
     const formik = useFormik({
         initialValues: {
-            username: ``,
-            password: '',
-            email: '',
-            contact: ''
+            id: user.id,
+            first_name: ``,
+            last_name: ``,
+            user_name: ``,
+            email: ``,
+            role_id: user.role_id,
         },
 
         onSubmit: async (values, { resetForm }) => {
             console.log(values);
+            const data = await dispatch(UpdateUserAction(values));
+            console.log(data);
         },
 
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('Username is required'),
+            first_name: Yup.string().required('Firstname is required'),
+            last_name: Yup.string().required('Lastname is required'),
+            user_name: Yup.string().required('Username is required'),
             email: Yup.string().required('Email is required'),
-            password: Yup.string().required('Password is required'),
-            contact: Yup.string().required('Contact is required'),
+            role_id: Yup.string().required('Category is required'),
         }),
     });
 
-    const { handleSubmit, errors, touched, getFieldProps, resetForm } = formik
+    const { handleSubmit, errors, touched, values, handleBlur, handleChange, setFieldValue, resetForm } = formik
     const handleShowPassword = () => {
         setShowPassword((show) => !show);
     };
@@ -73,13 +93,61 @@ const Profile = () => {
 
                                     <TextField
 
-                                        id='username'
+                                        id='first_name'
+                                        label='Firstname'
+                                        size='small'
+                                        fullWidth
+                                        value={values.first_name}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur} error={Boolean(errors.first_name && touched.first_name)}
+                                        helperText={touched.first_name && errors.first_name}
+
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='last_name'
+                                        label='Lastname'
+                                        size='small'
+                                        fullWidth
+                                        value={values.last_name}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={Boolean(errors.last_name && touched.last_name)}
+                                        helperText={touched.last_name && errors.last_name}
+
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='user_name'
                                         label='Username'
                                         size='small'
                                         fullWidth
-                                        {...getFieldProps('username')}
-                                        error={Boolean(errors.username && touched.username)}
-                                        helperText={touched.username && errors.username}
+                                        disabled
+                                        value={values.user_name}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={Boolean(errors.user_name && touched.user_name)}
+                                        helperText={touched.user_name && errors.user_name}
 
                                     />
                                 </Grid>
@@ -98,12 +166,16 @@ const Profile = () => {
                                         label='Email'
                                         size='small'
                                         fullWidth
-                                        {...getFieldProps('email')}
+                                        type='email'
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                         error={Boolean(errors.email && touched.email)}
                                         helperText={touched.email && errors.email}
 
                                     />
                                 </Grid>
+
                                 <Grid item xs={12}
                                     sx={{
                                         display: 'flex',
@@ -114,46 +186,24 @@ const Profile = () => {
 
                                     <TextField
 
-                                        id='contact'
-                                        label='Contact Info'
+                                        id='role_id'
+                                        label='Category'
                                         size='small'
+                                        select
+                                        disabled
                                         fullWidth
-                                        type='email'
-                                        {...getFieldProps('contact')}
-                                        error={Boolean(errors.contact && touched.contact)}
-                                        helperText={touched.contact && errors.contact}
+                                        value={values.role_id}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={Boolean(errors.role_id && touched.role_id)}
+                                        helperText={touched.role_id && errors.role_id}
 
-                                    />
-                                </Grid>
+                                    >
+                                        <MenuItem value="1">Agent</MenuItem>
+                                        <MenuItem value="2">Student</MenuItem>
 
-                                
-                                <Grid item xs={12}
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                    }}
-                                >
 
-                                    <TextField
-                                        fullWidth
-                                        autoComplete="current-password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        label="Password"
-                                        size='small'
-                                        {...getFieldProps('password')}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton onClick={handleShowPassword} edge="end">
-                                                        {/* <Icon icon={showPassword ? eyeFill : eyeOffFill} /> */}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                        error={Boolean(touched.password && errors.password)}
-                                        helperText={touched.password && errors.password}
-                                    />
+                                    </TextField>
                                 </Grid>
 
                                 <Grid item xs={12}

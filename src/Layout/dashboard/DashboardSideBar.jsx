@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from "@mui/material";
-import { Home, Article, Settings,Group, Storefront, Person, AccountBox, ModeNight } from '@mui/icons-material';
-// import MailIcon from '@mui/icons-material/Mail';
+import { Home, Article, Settings, Group, Storefront, Person, AccountBox, ModeNight } from '@mui/icons-material';
+import MailIcon from '@mui/icons-material/Mail';
 import Drawer from '@mui/material/Drawer';
 import PropTypes from 'prop-types';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
@@ -13,7 +13,7 @@ export const DashboardSideBar = ({ drawerWidth, container, mobileOpen }) => {
   const sideContent = [
     {
       title: 'Dashboard',
-      path: '',
+      path: '/dashboard/dash',
       icon: <Home sx={{ color: "white" }} />
     },
     {
@@ -28,8 +28,8 @@ export const DashboardSideBar = ({ drawerWidth, container, mobileOpen }) => {
     },
     {
       title: 'Inbox',
-      path: '/dashboard/users',
-      icon: <Group sx={{ color: "white" }} />
+      path: '/dashboard/inbox',
+      icon: <MailIcon  sx={{ color: "white" }} />
     },
     {
       title: 'List of Hostels',

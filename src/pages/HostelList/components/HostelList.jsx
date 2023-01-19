@@ -12,11 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const HostelList = () => {
   const dispatch = useDispatch()
   const { hostel } = useSelector((state) => state.HostelReducer);
-  // const { user } = useSelector((state) => state.GetUserReducer);
   const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
-    
-  // console.log(user);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
@@ -128,7 +124,7 @@ const HostelList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {hostel.filter(obj => obj.hostel_address.includes(searchAccomo)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
+            {hostel.filter(obj => obj.hostel_address.toLowerCase().includes(searchAccomo)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((host, id) => (
               <TableRow key={id}>
                 <TableCell sx={{ textAlign: 'center' }}>{id + 1}</TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>${host.amount}.00</TableCell>
