@@ -34,6 +34,8 @@ const HostelUpload = () => {
             user_id: user.id,
             hostel_address: '',
             amount: ``,
+            hostel_info:'',
+            hostel_facility:'',
         },
 
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -61,6 +63,9 @@ const HostelUpload = () => {
         validationSchema: Yup.object().shape({
             hostel_address: Yup.string().required('Hostel Address is required'),
             amount: Yup.string().required('Amount is required'),
+            hostel_info: Yup.string().required('Hostel Information is required'),
+            hostel_facility: Yup.string().required('Hostel Facility is required'),
+            
         }),
     });
 
@@ -139,6 +144,49 @@ const HostelUpload = () => {
                                         {...getFieldProps('amount')}
                                         error={Boolean(errors.amount && touched.amount)}
                                         helperText={touched.amount && errors.amount}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='hostel_info'
+                                        label='Hostel Information'
+                                        size='small'
+                                        fullWidth
+                                        type='text'
+                                        {...getFieldProps('hostel_info')}
+                                        error={Boolean(errors.hostel_info && touched.hostel_info)}
+                                        helperText={touched.hostel_info && errors.hostel_info}
+
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TextField
+
+                                        id='hostel_facility'
+                                        label='Hostel Facilities'
+                                        size='small'
+                                        fullWidth
+                                        type='text'
+                                        {...getFieldProps('hostel_facility')}
+                                        error={Boolean(errors.hostel_facility && touched.hostel_facility)}
+                                        helperText={touched.hostel_facility && errors.hostel_facility}
 
                                     />
                                 </Grid>

@@ -17,7 +17,7 @@ const Profile = () => {
             username: ``,
             password: '',
             email: '',
-            category: ''
+            contact: ''
         },
 
         onSubmit: async (values, { resetForm }) => {
@@ -28,7 +28,7 @@ const Profile = () => {
             username: Yup.string().required('Username is required'),
             email: Yup.string().required('Email is required'),
             password: Yup.string().required('Password is required'),
-            category: Yup.string().required('Category is required'),
+            contact: Yup.string().required('Contact is required'),
         }),
     });
 
@@ -98,14 +98,12 @@ const Profile = () => {
                                         label='Email'
                                         size='small'
                                         fullWidth
-                                        type='email'
                                         {...getFieldProps('email')}
                                         error={Boolean(errors.email && touched.email)}
                                         helperText={touched.email && errors.email}
 
                                     />
                                 </Grid>
-
                                 <Grid item xs={12}
                                     sx={{
                                         display: 'flex',
@@ -116,23 +114,19 @@ const Profile = () => {
 
                                     <TextField
 
-                                        id='category'
-                                        label='Category'
+                                        id='contact'
+                                        label='Contact Info'
                                         size='small'
-                                        select
                                         fullWidth
-                                        {...getFieldProps('category')}
-                                        error={Boolean(errors.category && touched.category)}
-                                        helperText={touched.category && errors.category}
+                                        type='email'
+                                        {...getFieldProps('contact')}
+                                        error={Boolean(errors.contact && touched.contact)}
+                                        helperText={touched.contact && errors.contact}
 
-                                    >
-                                        <MenuItem value="agent">Agent</MenuItem>
-                                        <MenuItem value="student">Student</MenuItem>
-
-
-                                    </TextField>
+                                    />
                                 </Grid>
 
+                                
                                 <Grid item xs={12}
                                     sx={{
                                         display: 'flex',
@@ -175,7 +169,7 @@ const Profile = () => {
                                         fullWidth
                                         type='submit'
                                     >
-                                        Sign Up
+                                        Update
                                     </Button>
 
                                 </Grid>

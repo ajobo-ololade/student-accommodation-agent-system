@@ -32,6 +32,8 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
 
             hostel_address: '',
             amount: ``,
+            hostel_facility:'',
+            hostel_info:'',
         },
 
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -45,6 +47,8 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
         validationSchema: Yup.object().shape({
             hostel_address: Yup.string().required('Hostel Address is required'),
             amount: Yup.string().required('Amount is required'),
+            hostel_facility:Yup.string().required('Hostel Facility is required'),
+            hostel_info:Yup.string().required('Hostel Information is required'),
         }),
     });
     const { handleSubmit, errors, touched, setFieldValue, isSubmitting, handleChange, handleBlur, values } = formik
@@ -101,6 +105,33 @@ export const EditModal = ({ open, handleEditClose, handleEditOpen, editObj }) =>
                                                 onBlur={handleBlur}
                                                 error={Boolean(errors.hostel_address && touched.hostel_address)}
                                                 helperText={touched.hostel_address && errors.hostel_address}
+
+                                            />
+
+                                             <TextField
+                                                sx={{ my: 1 }}
+                                                id='hostel_info'
+                                                label='Hostel Information'
+                                                size='small'
+                                                fullWidth
+                                                value={values.hostel_info}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                error={Boolean(errors.hostel_info && touched.hostel_info)}
+                                                helperText={touched.hostel_info && errors.hostel_info}
+
+                                            />
+                                             <TextField
+                                                sx={{ my: 1 }}
+                                                id='hostel_facility'
+                                                label='Hostel Facility'
+                                                size='small'
+                                                fullWidth
+                                                value={values.hostel_facility}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                error={Boolean(errors.hostel_facility && touched.hostel_facility)}
+                                                helperText={touched.hostel_facility && errors.hostel_facility}
 
                                             />
                                             <Button variant="contained" component="label" type='button' sx={{ my: 1, }}>
