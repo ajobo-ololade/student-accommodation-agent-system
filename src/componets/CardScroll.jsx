@@ -128,6 +128,7 @@ const Example = () => {
                                     </Label>
                                 )}
                                 <StyledProductImg alt={'name'} src={image} />
+                                <img src={image} />
 
                             </Box>
 

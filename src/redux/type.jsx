@@ -16,6 +16,10 @@ export const getMessageActionType = {
     MESSAGES: "MESSAGES"
 }
 
+export const getAgentActionType = {
+    AGENTS: "AGENTS"
+}
+
 export const getHostelActionType = {
     HOSTEL: "HOSTEL"
 }
