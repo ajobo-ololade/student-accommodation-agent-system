@@ -8,14 +8,18 @@ import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { UpdateUserAction } from '../redux/action/userAction';
+import { LoadingButton } from '@mui/lab';
 
 
 const Profile = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
     const dispatch = useDispatch()
+    // const {  successMessage, errorMessage } = useSelector((state) => state.UserReducer)
+    const [sMessage, setSMessage] = useState(false);
+    const [eMessage, setEMessage] = useState(false);
     React.useEffect(() => {
         if (user) {
             const { first_name, last_name, user_name, email, role_id } = user;
@@ -37,10 +41,26 @@ const Profile = () => {
             role_id: user.role_id,
         },
 
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
             console.log(values);
             const data = await dispatch(UpdateUserAction(values));
             console.log(data);
+
+            if (data?.success === true) {
+
+                setSubmitting(true);
+                setSMessage(true);
+                setTimeout(() => {
+                    setSMessage(false)
+                }, 3000);
+            }
+            else {
+                setEMessage(true)
+                setTimeout(() => {
+                    setEMessage(false)
+                }, 3000);
+            }
+            setSubmitting(false)
         },
 
         validationSchema: Yup.object().shape({
@@ -52,15 +72,22 @@ const Profile = () => {
         }),
     });
 
-    const { handleSubmit, errors, touched, values, handleBlur, handleChange, setFieldValue, resetForm } = formik
+    const { handleSubmit, errors, touched, values, handleBlur, handleChange, setFieldValue, resetForm, isSubmitting } = formik
     const handleShowPassword = () => {
         setShowPassword((show) => !show);
     };
     return (
         <Container component="main" maxWidth="xs">
             <Box sx={{ margin: 'auto', padding: '5px' }}>
-                <Alert severity="success">Login Succeful</Alert>
-                <Alert severity="error">Invalid Crediential</Alert>
+                {
+                    sMessage ?
+                        <Alert severity="success">Profile Update sucessfully</Alert>
+                        :
+                        eMessage ?
+                            <Alert severity="error">Update filed</Alert>
+                            :
+                            null
+                }
             </Box>
 
             <Card sx={{ margin: 'auto', marginTop: '50px', padding: '2rem' }} >
@@ -214,13 +241,16 @@ const Profile = () => {
                                     }}
                                 >
 
-                                    <Button
-                                        variant={'contained'}
+                                    <LoadingButton
+                                        type="submit"
                                         fullWidth
-                                        type='submit'
+                                        color="primary"
+                                        variant="contained"
+                                        loading={isSubmitting}
+                                    // onClick={check}
                                     >
                                         Update
-                                    </Button>
+                                    </LoadingButton>
 
                                 </Grid>
 
