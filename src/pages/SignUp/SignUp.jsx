@@ -283,7 +283,7 @@ const SignUp = () => {
                                         variant="contained"
                                         loading={isSubmitting}
                                     >
-                                        Login
+                                        Register
                                     </LoadingButton>
 
                                 </Grid>
