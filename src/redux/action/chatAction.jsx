@@ -54,7 +54,7 @@ export const GetAgentAction = (value) => async (dispatch) => {
             console.log(data.data.data);
             dispatch({
                 type: getAgentActionType.AGENTS,
-                paylad: data?.data.data,
+                payload: data?.data.data,
             })
         }
 
