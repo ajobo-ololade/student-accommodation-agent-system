@@ -1,5 +1,5 @@
-import { loginRequest, signUpRequest } from "../../api/authRequest";
-import { storageSet } from "../../utils/utilities";
+import { loginRequest, logOutRequest, signUpRequest } from "../../api/authRequest";
+import { storageRemove, storageSet } from "../../utils/utilities";
 import { loadingActionTypes, messageActionType } from "../type";
 
 export const LoginAction = (values) => async (dispatch) => {
@@ -55,6 +55,36 @@ export const SignUpAction = (value) => async (dispatch) => {
         payload: data.message,
       })
     }
+
+    return data
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const LogOutAction = (value) => async (dispatch) => {
+  try {
+
+    const data = await logOutRequest(value);
+
+    // extract success
+    if (data?.success === true) {
+      storageRemove('token')
+      dispatch({
+        type: messageActionType.SUCCESS_MESSAGE,
+        payload: data.message,
+      })
+
+    }
+
+    // extract error
+    // else {
+    //   dispatch({
+    //     type: messageActionType.ERROR_MESSAGE,
+    //     payload: data.message,
+    //   })
+    // }
 
     return data
 

@@ -12,6 +12,11 @@ import SearchIcon from '@mui/icons-material/Search';
 const HostelList = () => {
   const dispatch = useDispatch()
   const { hostel } = useSelector((state) => state.HostelReducer);
+  // const { user } = useSelector((state) => state.GetUserReducer);
+  const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    
+  // console.log(user);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
@@ -65,12 +70,19 @@ const HostelList = () => {
       label: 'Details',
     },
     {
-      label: 'Edit',
+      label: user.role_id === 1 ? 'Edit' : null,
     },
     {
-      label: 'Delete',
+      label: user.role_id === 1 ? 'Delete' : null,
     },
   ];
+  // const check = () => {
+  //   if (user.role_id === 1) {
+  //     return headerData.slice(0,4)
+  //   }else{
+  //     return headerData
+  //   }
+  // }
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -110,6 +122,9 @@ const HostelList = () => {
                   {data.label}
                 </TableCell>
               ))}
+              {/* <TableCell sx={{ textAlign: 'center' }}>
+                  
+                </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -121,8 +136,8 @@ const HostelList = () => {
                 {/* <TableCell sx={{ textAlign: 'center' }}><Avatar alt="Remy Sharp" src={image} variant='squre'/> </TableCell> */}
                 <TableCell sx={{ textAlign: 'center' }}>available </TableCell>
                 <TableCell sx={{ textAlign: 'center' }}><Button variant="text" onClick={() => handleViewOpen(host.id)}>View Details</Button></TableCell>
-                <TableCell sx={{ textAlign: 'center' }}><EditIcon sx={{ color: 'green', cursor: 'pointer' }} onClick={() => handleEditOpen(host)} /></TableCell>
-                <TableCell sx={{ textAlign: 'center' }}><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelOpen(host)} /></TableCell>
+                {user?.role_id === 1 && <TableCell sx={{ textAlign: 'center' }}><EditIcon sx={{ color: 'green', cursor: 'pointer' }} onClick={() => handleEditOpen(host)} /></TableCell>}
+                {user?.role_id === 1 && <TableCell sx={{ textAlign: 'center' }}><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelOpen(host)} /></TableCell>}
                 {/* {host.image} */}
                 {/* <img src={image} alt="" /> */}
               </TableRow>

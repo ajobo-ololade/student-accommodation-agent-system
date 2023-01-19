@@ -5,69 +5,75 @@ import Drawer from '@mui/material/Drawer';
 import PropTypes from 'prop-types';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LogOutAction } from '../../redux/action/authActions';
 
-export const DashboardSideBar = ({drawerWidth, container, mobileOpen}) => {
+export const DashboardSideBar = ({ drawerWidth, container, mobileOpen }) => {
   const sideContent = [
     {
       title: 'Dashboard',
       path: '',
-      icon: <Home sx={{color: "white"}} />
+      icon: <Home sx={{ color: "white" }} />
     },
     {
       title: 'Profile',
       path: '/dashboard/profile',
-      icon: <AccountBox sx={{color: "white"}} />
+      icon: <AccountBox sx={{ color: "white" }} />
     },
     {
       title: 'Hostel Upload',
       path: '/dashboard/hostelUpload',
-      icon: <DriveFolderUploadIcon sx={{color: "white"}} />
+      icon: <DriveFolderUploadIcon sx={{ color: "white" }} />
     },
     {
       title: 'Users',
       path: '/dashboard/users',
-      icon: <Group sx={{color: "white"}} />
+      icon: <Group sx={{ color: "white" }} />
     },
     {
       title: 'List of Hostels',
       path: '/dashboard/hostelLists',
-      icon: <Article sx={{color: "white"}} />
+      icon: <Article sx={{ color: "white" }} />
     },
-    {
-      title: 'Log Out',
-      path: '',
-      icon: <Settings sx={{color: "white"}} />
-    }
+    // {
+    //   title: 'Log Out',
+    //   action: '',
+    //   icon: <Settings sx={{ color: "white" }} />
+    // }
   ]
+  const dispatch = useDispatch()
+  const logOut = async () => {
+    const data = await dispatch(LogOutAction());
+    console.log(data);
+  }
 
   return (
     <>
-    <Box  position="fixed" sx={{marginTop: '60px',}} >
-          {sideContent.map(({ title, path, icon }) => (
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to={path}>
-                  <ListItemIcon>
-                    {icon}
-                  </ListItemIcon>
-                  <ListItemText primary={title} />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          ))}
+      <Box position="fixed" sx={{ marginTop: '60px', }} >
+        {sideContent.map(({ title, path, icon }) => (
           <List>
-                <ListItem disablePadding>
-                    <ListItemButton component="a" href="#">
-                        <ListItemIcon>
-                            <ModeNight />
-                        </ListItemIcon>
-                        {/* onChange={e => setMode(mode === "light" ? "dark" : "light" )} */}
-                        <Switch  />
-                    </ListItemButton>
-                </ListItem>
-            </List>
-        </Box>
-</>
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to={path}>
+                <ListItemIcon>
+                  {icon}
+                </ListItemIcon>
+                <ListItemText primary={title} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        ))}
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={ logOut }>
+              <ListItemIcon>
+                <Settings sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary='Log Out' />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+    </>
   )
 };
 DashboardSideBar.propTypes = {

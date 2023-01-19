@@ -15,10 +15,11 @@ import { storageGet } from '../utils/utilities';
 const HostelUpload = () => {
 
     const dispatch = useDispatch()
-    const { user } = useSelector((state) => state.GetUserReducer);
+    // const { user } = useSelector((state) => state.GetUserReducer);
     const {  successMessage, errorMessage } = useSelector((state) => state.HostelReducer)
     const [sMessage, setSMessage] = useState(false);
     const [eMessage, setEMessage] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
     const [file, setFile] = useState('')
     const onChange = (e) => {
@@ -34,8 +35,8 @@ const HostelUpload = () => {
             user_id: user.id,
             hostel_address: '',
             amount: ``,
-            hostel_info:'',
-            hostel_facility:'',
+            info:'',
+            facilities:'',
         },
 
         onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -63,8 +64,8 @@ const HostelUpload = () => {
         validationSchema: Yup.object().shape({
             hostel_address: Yup.string().required('Hostel Address is required'),
             amount: Yup.string().required('Amount is required'),
-            hostel_info: Yup.string().required('Hostel Information is required'),
-            hostel_facility: Yup.string().required('Hostel Facility is required'),
+            info: Yup.string().required('Hostel Information is required'),
+            facilities: Yup.string().required('Hostel Facility is required'),
             
         }),
     });
@@ -157,14 +158,14 @@ const HostelUpload = () => {
 
                                     <TextField
 
-                                        id='hostel_info'
+                                        id='info'
                                         label='Hostel Information'
                                         size='small'
                                         fullWidth
                                         type='text'
-                                        {...getFieldProps('hostel_info')}
-                                        error={Boolean(errors.hostel_info && touched.hostel_info)}
-                                        helperText={touched.hostel_info && errors.hostel_info}
+                                        {...getFieldProps('info')}
+                                        error={Boolean(errors.info && touched.info)}
+                                        helperText={touched.info && errors.info}
 
                                     />
                                 </Grid>
@@ -179,14 +180,14 @@ const HostelUpload = () => {
 
                                     <TextField
 
-                                        id='hostel_facility'
+                                        id='facilities'
                                         label='Hostel Facilities'
                                         size='small'
                                         fullWidth
                                         type='text'
-                                        {...getFieldProps('hostel_facility')}
-                                        error={Boolean(errors.hostel_facility && touched.hostel_facility)}
-                                        helperText={touched.hostel_facility && errors.hostel_facility}
+                                        {...getFieldProps('facilities')}
+                                        error={Boolean(errors.facilities && touched.facilities)}
+                                        helperText={touched.facilities && errors.facilities}
 
                                     />
                                 </Grid>

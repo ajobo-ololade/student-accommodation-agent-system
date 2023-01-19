@@ -1,4 +1,4 @@
-import { getHostelActionType } from "../type";
+import { getUserActionType } from "../type";
 
 const initialStates = {
  user: {}
@@ -7,13 +7,13 @@ const initialStates = {
 export const GetUserReducer = (state = initialStates, {type, payload}) => {
   switch (type) {
 
-    case getHostelActionType.USER:
+    case getUserActionType.USER:
         return {
             ...state,
             user: payload
         }
-
-    default:
-      return state;
-  }
+        
+        default:
+          return state;
+        }
 };
